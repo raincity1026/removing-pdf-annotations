@@ -57,6 +57,25 @@ Next time you ask Claude Code to remove PDF annotations and the usual approach
 fails, it will find this skill via the description and apply the right
 technique automatically.
 
+## Use With Other Agents
+
+This repo follows the [Agent Skill spec](https://agentskills.io/specification),
+so it's not limited to Claude Code. The `SKILL.md` is plain markdown and the
+script is plain Python — any agent that can read documentation and run a
+script can use it. Quick map:
+
+| Agent | How to install | Notes |
+|---|---|---|
+| **Claude Code** | clone into `~/.claude/skills/` | Native — auto-discovered via description |
+| **Codex CLI** | clone into `~/.agents/skills/` | Same skill format, different directory |
+| **Gemini CLI** | clone into your skills dir, activate via `activate_skill` | Loads on demand |
+| **Cursor / Windsurf / etc.** | reference `SKILL.md` as a rule/context file | No native skill loader, but the markdown stands alone |
+| **Custom agent (Anthropic SDK, etc.)** | include `SKILL.md` in your system prompt; shell out to `scripts/remove_pdf_annotations.py` | You wire up the loading yourself |
+
+The core value — the two-layer annotation model and the `/ADBE_FillSign`
+marker discovery — is just knowledge documented in `SKILL.md`. Even a chat
+LLM with no tool access can read it and tell a human what to do.
+
 ## When This Won't Work
 
 The skill targets `/ADBE_FillSign` markers specifically. Annotations flattened
